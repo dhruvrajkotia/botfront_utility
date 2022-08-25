@@ -22,11 +22,16 @@ def upload_file(file_name, bucket, object_name=None):
 
 
 def download_file(file_name, bucket, object_name=None):
-    s3 = boto3.client('s3')
-    with open(file_name, 'wb') as f:
-        s3.download_fileobj(bucket, object_name, f)
+    try:
+        s3 = boto3.client('s3')
+        with open(file_name, 'wb') as f:
+            s3.download_fileobj(bucket, object_name, f)
 
-    os.system("sudo sh botfront_startup.sh")
+        os.system("sudo sh botfront_startup.sh")
+    except Exception:
+        return False
+
+    return True
 
 
 app = Flask(__name__)
