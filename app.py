@@ -35,7 +35,7 @@ def home():
 
 @app.route("/sync_model")
 def sync_model():
-    status = upload_file(app.config.get('MODEL_FILE_PATH'),
+    status = upload_file(app.config.get('MODEL_FILE'),
                          app.config.get('S3_BUCKET_NAME'))
     return jsonify({'status': status})
 
