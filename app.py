@@ -21,6 +21,14 @@ def upload_file(file_name, bucket, object_name=None):
     return True
 
 
+def download_file(file_name, bucket, object_name=None):
+    s3 = boto3.client('s3')
+    with open(file_name, 'wb') as f:
+        s3.download_fileobj(bucket, object_name, f)
+
+    os.system("sudo sh botfront_startup.sh")
+
+
 app = Flask(__name__)
 
 
@@ -42,6 +50,13 @@ def home():
 def sync_model():
     status = upload_file(app.config.get('MODEL_PATH'),
                          app.config.get('S3_BUCKET_NAME'))
+    return jsonify({'status': status})
+
+
+@app.route("/model_download")
+def download_model():
+    status = download_file(app.config.get('MODEL_DOWNLOAD_PATH'),
+                           app.config.get('S3_BUCKET_NAME'), app.config.get('MODEL_PATH').split('/')[-1])
     return jsonify({'status': status})
 
 

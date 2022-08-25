@@ -8,6 +8,8 @@ def load_config():
     app.config['MODEL_PATH'] = os.environ.get('MODEL_PATH')
     app.config['S3_BUCKET_NAME'] = os.environ.get('S3_BUCKET_NAME')
     app.config['PORT'] = os.environ.get('PORT', 8080)
+    app.config['MODEL_DOWNLOAD_PATH'] = os.environ.get(
+        'MODEL_DOWNLOAD_PATH', 'model.tar.gz')
     app.config['DEBUG'] = True
 
     return app
