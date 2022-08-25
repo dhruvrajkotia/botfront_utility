@@ -1,0 +1,16 @@
+version: "3.0"
+services:
+  model_sync:
+    image: model_sync:latest
+    container_name: botfront-model-sync
+    restart: always
+    networks: ['botfront-network']
+    ports:
+    - "8080:8080"
+    env_file:
+    - .env
+
+networks:
+  botfront-network: {}
+volumes:
+  botfront-db:
