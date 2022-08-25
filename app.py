@@ -6,6 +6,7 @@ from botocore.exceptions import ClientError
 import os
 from utils.config import load_config
 
+
 def upload_file(file_name, bucket, object_name=None):
     if object_name is None:
         object_name = os.path.basename(file_name)
@@ -19,7 +20,9 @@ def upload_file(file_name, bucket, object_name=None):
         return False
     return True
 
+
 app = Flask(__name__)
+
 
 @app.route("/health-checkup")
 def health_checkup():
@@ -27,19 +30,22 @@ def health_checkup():
         'ok': True
     })
 
+
 @app.route("/")
 def home():
     return jsonify({
         'ok': True
     })
 
+
 @app.route("/sync_model")
 def sync_model():
-    status = upload_file(app.config.get('MODEL_FILE'),
+    status = upload_file(app.config.get('MODEL_PATH'),
                          app.config.get('S3_BUCKET_NAME'))
     return jsonify({'status': status})
 
 
 if __name__ == "__main__":
     app = load_config()
-    app.run(host='0.0.0.0', debug=app.config.get('DEBUG'), port=app.config.get('PORT'))
+    app.run(host='0.0.0.0', debug=app.config.get(
+        'DEBUG'), port=app.config.get('PORT'))
